@@ -35,8 +35,11 @@ function display(id) {
     if (id == 'enter') {
         if (lastOperator == 'zero') prompt(`bruv xdddd ${inputNumber} = ${inputNumber} xdd`);
         else {
+            wholeInput[wholeInput.length] = inputNumber;
+            wholeInput[wholeInput.length] = id; 
+            lastItem = wholeInput[wholeInput.length - 1];
             storeNewNumber(inputNumber);
-            storeOperator(id);
+            calcYaLater(id);
             updateResult();
         }
     } else {
@@ -58,7 +61,7 @@ function display(id) {
                     wholeInput[wholeInput.length] = id; 
                     lastItem = wholeInput[wholeInput.length - 1];
                     storeNewNumber(inputNumber);
-                    storeOperator(id);
+                    calcYaLater(id);
                     updateResult();
                 }
             } else {
@@ -80,9 +83,20 @@ let lastOperator = 'zero';
 let newOperator = 'one';
 let result = 'none';
 
-function storeOperator(operator) {
+function calcYaLater(operator) {
     if (operator == 'enter') {
-        result = operate(lastOperator, lastNumber, newNumber);
+        if (lastOperator == 'zero') {
+
+        }
+        if (newOperator == 'one') {
+            result = operate(lastOperator, lastNumber, newNumber);
+            lastOperator = 'zero';
+        }
+        else {
+            result = operate(newOperator, lastNumber, newNumber);
+            lastOperator = 'zero';
+            newOperator = 'one';
+        }
     } else if (lastOperator == 'zero') { //0 calculation
         lastOperator = operator;
     } else if (newOperator == 'one') { //first calculation
@@ -93,6 +107,8 @@ function storeOperator(operator) {
         newOperator = operator;
         result = operate(lastOperator, lastNumber, newNumber);
     }
+    console.log("lastOp:", lastOperator);
+    console.log("newOp:", newOperator);
 }
 
 function changeOperator(operator) {
