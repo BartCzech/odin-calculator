@@ -10,53 +10,80 @@ function multiply(a, b) {
 function divide(a, b) {
     return a/b;
 }
+function power(a, b) {
+    return a**b;
+}
+function squareRoot(a) {
+    return Math.sqrt(a);
+}
 
 function operate(operator, a, b) {
     if (operator == "+") return add(a, b);
     else if (operator == "-") return subtract(a, b);
     else if (operator == "*") return multiply(a, b);
     else if (operator == "/") return divide(a, b);
+    else if (operator == "^") return power(a, b);
 }
 
 let input = document.querySelector('#text');
-let wholeInput = ["0"];
+let wholeInput = ["lol"];
 let lastItem;
 let inputNumber;
+let inputSigns = ['shit'];
 
 function display(id) {
-    if (input.textContent == '0') clearInput();
-
-    if (id == "+" || id =="-" || id == "*" || id == "/") {
-        wholeInput[wholeInput.length - 1] = inputNumber;
-        lastItem = wholeInput[wholeInput.length - 1];//96
-        if (lastItem == "+" || lastItem =="-" || lastItem == "*" || lastItem == "/") { //if user clicks + and then / or sth
-            wholeInput[wholeInput.length - 1] = id;
-            //storeOperator(id);
-        } else { //user clicked number and now operator
+    if (id == 'enter') {
+        if (lastOperator == 'zero') prompt(`bruv xdddd ${inputNumber} = ${inputNumber} xdd`);
+        else {
             storeNewNumber(inputNumber);
             storeOperator(id);
             updateResult();
-            wholeInput[wholeInput.length] = id; //+
-            lastItem = wholeInput[wholeInput.length - 1];//+
         }
     } else {
-        if (lastItem == "+" || lastItem =="-" || lastItem == "*" || lastItem == "/") {
-            clearInput();
-            input.textContent += id;
-            lastItem = id; //maybe change it
-        } else {
-            input.textContent += id;
+    
+        if (typeof inputNumber != 'undefined') { //not important
+            const stringus = `${inputNumber}`;
+            inputSigns = stringus.split('');
         }
+        if (input.textContent == 'CALC YA LATER') clearInput();
+        if (inputSigns.length >= 14) prompt("bruv that's 2 long 4 me");
+        else {
+            if (id == "+" || id =="-" || id == "*" || id == "/" || id == "^") {
+                if (lastItem == "+" || lastItem =="-" || lastItem == "*" || lastItem == "/" || lastItem == "^") { //user clicked number operator operator
+                    wholeInput[wholeInput.length - 1] = id;
+                    lastItem = wholeInput[wholeInput.length - 1];
+                    changeOperator(id);
+                } else { //user clicked number and operator
+                    wholeInput[wholeInput.length] = inputNumber;
+                    wholeInput[wholeInput.length] = id; 
+                    lastItem = wholeInput[wholeInput.length - 1];
+                    storeNewNumber(inputNumber);
+                    storeOperator(id);
+                    updateResult();
+                }
+            } else {
+                if (lastItem == "+" || lastItem =="-" || lastItem == "*" || lastItem == "/" || lastItem == "^") {
+                    clearInput();
+                    input.textContent += id;
+                    lastItem = id; //maybe change it
+                } else {
+                    input.textContent += id;
+                }
+            } 
+        }
+        inputNumber = parseFloat(input.textContent);
     }
-    inputNumber = parseInt(input.textContent);
 }
+
 
 let lastOperator = 'zero';
 let newOperator = 'one';
 let result = 'none';
 
 function storeOperator(operator) {
-    if (lastOperator == 'zero') { //0 calculation
+    if (operator == 'enter') {
+        result = operate(lastOperator, lastNumber, newNumber);
+    } else if (lastOperator == 'zero') { //0 calculation
         lastOperator = operator;
     } else if (newOperator == 'one') { //first calculation
         newOperator = operator;
@@ -66,9 +93,14 @@ function storeOperator(operator) {
         newOperator = operator;
         result = operate(lastOperator, lastNumber, newNumber);
     }
-    console.log("lastOp:", lastOperator);
-    console.log("newOp:", newOperator);
-    console.log("result:", result);
+}
+
+function changeOperator(operator) {
+    if (newOperator == 'one') {
+        lastOperator = operator;
+    } else {
+        newOperator = operator; 
+    }
 }
 
 let lastNumber = 'zero';
@@ -93,17 +125,12 @@ function updateResult() {
         newNumber = result;
     }
     if (newNumber != 'one') {
-        input.textContent = result;
+        input.textContent = Math.round(result*100).toFixed(1)/100;
     }
 }
 
 function clearInput() {
        input.textContent = '';
-//     lastNumber = 'zero';
-//     newNumber = 'one';
-//     lastOperator = 'zero';
-//     newOperator = 'one';
-//     result = 'none';
 }
 
 function clearAll() {
@@ -113,4 +140,11 @@ function clearAll() {
     lastOperator = 'zero';
     newOperator = 'one';
     result = 'none';
+}
+
+function deleteButton() {
+    let str = input.textContent;
+    let newStr = str.slice(0, -1);
+    input.textContent = newStr;
+    inputNumber = parseFloat(input.textContent);
 }

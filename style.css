@@ -24,11 +24,12 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 .input {
+    
     display: flex;
     align-items: center;
     width: 292px;
     height: 42px;
-    background-color: lightskyblue;
+    background: linear-gradient(rgb(166, 247, 250), rgb(135, 236, 250));
     border: 4px solid lightblue;
 }
     #text {
@@ -61,7 +62,18 @@ button {
     /*border: 2px solid grey;*/
     border-radius: 5px;
     margin: 2px;
-    background: linear-gradient(lightskyblue, lightgreen);
     font-size: 1.6em;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.number {
+    background: linear-gradient(rgb(219, 241, 219), rgb(218, 130, 218));
+}
+.operator {
+    background: linear-gradient(rgb(219, 241, 219), rgb(135, 250, 192));
+}
+.doSth {
+    background: linear-gradient(rgb(219, 241, 219), rgb(250, 242, 135));
+}
+#enter {
+    width: 146px;
 }
